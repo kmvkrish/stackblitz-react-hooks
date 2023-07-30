@@ -1,24 +1,44 @@
 import React from 'react';
 import './style.css';
 
-import { useState, useEffect } from 'react';
-import UseEffectDemo from './Components/UseEffectDemo';
-import IntervalHookDemo from './Components/IntervalHookDemo';
+import { data } from './data/data.js';
+import { utils } from './utils/utils.js';
 
 export default function App({ roomId }) {
-  const [display, setDisplay] = useState(true);
+  const chemists = data.filter(
+    (professor) => professor.profession === 'chemist'
+  );
 
-  const handleClick = () => {
-    setDisplay(!display);
-  };
+  const others = data.filter((professor) => professor.profession !== 'chemist');
 
   return (
     <>
-      <h1>Click Button to toggle Mouse Position</h1>
-      <button onClick={handleClick}>Click Me</button>
-      {/* {display && <UseEffectDemo />} */}
-
-      {display && <IntervalHookDemo />}
+      <ul>
+        <h3>Chemists</h3>
+        {chemists.map((person) => (
+          <li key={person.id}>
+            <img src={getImageUrl(person)} alt={person.name} />
+            <p>
+              <b>{person.name}:</b>
+              {' ' + person.profession + ' '}
+              known for {person.accomplishment}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <ul>
+        <h3>Everyone Else</h3>
+        {others.map((person) => (
+          <li key={person.id}>
+            <img src={getImageUrl(person)} alt={person.name} />
+            <p>
+              <b>{person.name}:</b>
+              {' ' + person.profession + ' '}
+              known for {person.accomplishment}
+            </p>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
